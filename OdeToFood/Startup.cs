@@ -34,15 +34,21 @@ namespace OdeToFood
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
             IGreeter greeter)
         {
-            loggerFactory.AddConsole();
+            //loggerFactory.AddConsole();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseStatusCodePages();
+
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
+            app.UseFileServer();
+
             app.Run(async (context) =>
-            {
+            { 
                 var greeting = Configuration["greeting"];
                 greeting = greeter.GetGreeting(); 
                 await context.Response.WriteAsync(greeting);
