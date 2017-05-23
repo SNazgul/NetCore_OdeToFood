@@ -14,13 +14,20 @@ namespace OdeToFood
 {
     public class Startup
     {
-        public Startup()
+        public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+
             Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; set; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -28,6 +35,9 @@ namespace OdeToFood
         {
             services.AddSingleton(provider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
+            
+            // Add framework services.
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,21 +46,35 @@ namespace OdeToFood
         {
             //loggerFactory.AddConsole();
 
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
             }
 
             //app.UseStatusCodePages();
 
             //app.UseDefaultFiles();
-            //app.UseStaticFiles();
-            app.UseFileServer();
+            app.UseStaticFiles();
+            //app.UseFileServer();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run(async (context) =>
-            { 
+            {
                 var greeting = Configuration["greeting"];
-                greeting = greeter.GetGreeting(); 
+                greeting = greeter.GetGreeting();
                 await context.Response.WriteAsync(greeting);
             });
         }
