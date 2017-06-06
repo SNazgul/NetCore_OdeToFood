@@ -35,6 +35,7 @@ namespace OdeToFood
         {
             services.AddSingleton(provider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
+            services.AddScoped<IRestaurantData, InMemoryRestaurantData>();
             
             // Add framework services.
             services.AddMvc();
