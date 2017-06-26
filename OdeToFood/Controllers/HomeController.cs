@@ -33,7 +33,7 @@ namespace OdeToFood.Controllers
         }
 
         [HttpPost]
-        public ViewResult Create(RestaurantEditViewModel model)
+        public IActionResult Create(RestaurantEditViewModel model)
         {
             var restaurant = new Restaurant();
             restaurant.Name = model.Name;
@@ -41,7 +41,13 @@ namespace OdeToFood.Controllers
 
             _restaurantData.Add(restaurant);
 
-            return View("Details", restaurant);
+            // It is dangerous returns View from POST:
+            //  for example try to update page after this view has been received,
+            //  data will be send to server twice
+            //return View("Details", restaurant);
+            //
+            // lets redirect
+            return RedirectToAction("Details", new { id = restaurant.Id});
         }
 
 
