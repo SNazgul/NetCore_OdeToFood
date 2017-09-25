@@ -15,13 +15,18 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(restaurant.Id.ToString(), "Details", new { id = restaurant.Id })
+                @*@Html.ActionLink(restaurant.Id.ToString(), "Details", new { id = restaurant.Id })*@
+                <a asp-action="Details" asp-route-id="@restaurant.Id">Details</a>
             </td>
             <td>@restaurant.Name</td>
         </tr>
 
     }
 </table>
+
+@*href="/home/create"*@
+<a aps-controller="Home" asp-action="Create">Create</a>
+
 @section footer{
     <div>@Model.CurrentGreeting</div>
 }
