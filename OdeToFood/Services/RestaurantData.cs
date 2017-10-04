@@ -10,6 +10,7 @@ namespace OdeToFood.Services
         IEnumerable<Restaurant> GetAll();
         Restaurant Get(int id);
         void Add(Restaurant newTestaurant);
+        int Commit();
     }
 
 
@@ -42,6 +43,11 @@ namespace OdeToFood.Services
         public IEnumerable<Restaurant> GetAll()
         {
             return _restaurants;
+        }
+
+        public int Commit()
+        {
+            return 0;
         }
     }
 }

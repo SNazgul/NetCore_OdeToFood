@@ -14,9 +14,11 @@
     @foreach (var restaurant in Model.Restaurants)
     {
         <tr>
+            <td>@restaurant.Name</td>
             <td>
                 @*@Html.ActionLink(restaurant.Id.ToString(), "Details", new { id = restaurant.Id })*@
                 <a asp-action="Details" asp-route-id="@restaurant.Id">Details</a>
+                <a asp-action="Edit" asp-route-id="@restaurant.Id">Edit</a>
             </td>
             <td>@restaurant.Name</td>
         </tr>

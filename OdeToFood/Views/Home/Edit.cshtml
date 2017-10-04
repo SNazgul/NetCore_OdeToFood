@@ -1,0 +1,33 @@
+﻿@using OdeToFood.Entities
+@model Restaurant
+
+@{
+    ViewData["Title"] = $"Edit {Model.Name}";
+}
+<h1>Edit @Model.Name</h1>
+
+@*@using (Html.BeginForm())   - we will use tag helpers, therefore get rig of things like Html.BeginForm*@
+<form asp-action="Edit" method="POST">
+    <div>
+    @*You will just have to make the decision which one you like.
+    Do you prefer the clarity of the HTML (<label asp-for="Name"></label>)
+    or do you prefer the strong typing and IntelliSense (@Html.LabelFor(m => m.Name))*@ 
+        @*@Html.LabelFor(m => m.Name)*@
+        <label asp-for="Name"></label>
+        @*@Html.EditorFor(m => m.Name)*@
+        <input asp-for="Name" />
+        @*@Html.ValidationMessageFor(m => m.Name)*@
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        @*@Html.LabelFor(m => m.Cuisine)*@
+        <label asp-for="Cuisine"></label>
+        @Html.DropDownListFor(m => m.Cuisine, Html.GetEnumSelectList(typeof(CuisineType)))
+        @*<select asp-for="Cuisine" asp-items="@Html.GetEnumSelectList(typeof(CuisineType))"/> DOESNT WORK BUT MUST*@
+        @*@Html.ValidationMessageFor(m => m.Cuisine)*@
+        <span asp-validation-for="Cuisine"></span>
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+</form>
