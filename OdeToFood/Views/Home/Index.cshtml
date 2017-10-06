@@ -10,24 +10,34 @@
 
 <h1>Welcome!</h1>
 @*<h3>@Model.CurrentGreeting</h3>*@
-<table>
+
+@foreach (var restaurant in Model.Restaurants)
+{
+    @Html.Partial("_Summary", restaurant);
+}
+
+@*Replaced by @Html.Partial*@
+@*<table>
     @foreach (var restaurant in Model.Restaurants)
     {
         <tr>
             <td>@restaurant.Name</td>
-            <td>
+            <td>*@
                 @*@Html.ActionLink(restaurant.Id.ToString(), "Details", new { id = restaurant.Id })*@
-                <a asp-action="Details" asp-route-id="@restaurant.Id">Details</a>
+                @*<a asp-action="Details" asp-route-id="@restaurant.Id">Details</a>
                 <a asp-action="Edit" asp-route-id="@restaurant.Id">Edit</a>
             </td>
             <td>@restaurant.Name</td>
         </tr>
 
     }
-</table>
+</table>*@
 
-@*href="/home/create"*@
-<a aps-controller="Home" asp-action="Create">Create</a>
+<div>
+    @*href="/home/create"*@
+    <a aps-controller="Home" asp-action="Create">Create</a>
+</div>
+
 
 @section footer{
     <div>@Model.CurrentGreeting</div>
