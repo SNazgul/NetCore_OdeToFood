@@ -64,6 +64,7 @@
     </environment>
 
     @RenderSection("footer", required: false)
+    @await Component.InvokeAsync("Greeting")
     @RenderSection("scripts", required: false)
 </body>
 </html>
